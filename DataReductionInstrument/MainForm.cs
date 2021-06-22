@@ -248,9 +248,9 @@ namespace DataReductionInstrument
 			var data = File.ReadLines(filePath).Where((o, i) => _rowSelector[i]).Select(s => s.Split(',').Where((o, i) => _colSelector[i]).ToArray()).ToArray();
 			
 			using (var sw = new StreamWriter(savePath)) {
-				var ncol = _colSelector.Count(o => o);
+				var ncol = data.Max(o => o.Length);
 				for (int i = 0; i < ncol; i++)
-					sw.WriteLine(string.Join(",", data.Select(o => o[i]).ToArray()));
+					sw.WriteLine(string.Join(",", data.Select(o => i < o.Length ? o[i] : "").ToArray()));
 			}
 		}
 		
